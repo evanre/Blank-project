@@ -1,0 +1,45 @@
+///
+// Fonts:
+///
+// Base font stacks
+$font-stack: // put fontstack here
+
+// Base font size for html selector to rem units
+$base-font-size: 10px;
+
+///
+// Colors:
+///
+// colors from psd
+$primary: #1955a6;
+$secondary: #4071b2;
+$light: #f8f8f8;
+$dark: #435870;
+
+// standart colors
+$whitish: #fff; // white
+$blackish: #000; // black
+
+// Dark on light background
+$dark-1: rgba($blackish, .87); // 87% primary / #333
+$dark-2: rgba($blackish, .54); // 54% secondary / #666
+$dark-3: rgba($blackish, .38); // 38% tertiary / #999
+$dark-4: rgba($blackish, .12); // 12% subtle / #ccc
+
+// Light on dark or colored background
+$light-2: rgba($whitish, .70); // 70% secondary
+$light-3: rgba($whitish, .30); // 30% tertiary
+$light-4: rgba($whitish, .12); // 12% subtle
+
+///
+// Animations:
+///
+// Base transition
+$transition: all 0.25s ease-in-out;
+
+
+///
+// Paths:
+///
+// Font path
+$font-path: "../fonts";

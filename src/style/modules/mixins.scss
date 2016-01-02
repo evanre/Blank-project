@@ -1,0 +1,200 @@
+/*
+********** Mixins
+*/
+/* Flex mixin */
+%flex {display: flex;}
+%flex-direction-row {flex-direction: row;}
+%flex-direction-row-reverse {flex-direction: row-reverse;}
+%flex-direction-column {flex-direction: column;}
+%flex-direction-column-reverse {flex-direction: column-reverse;}
+%flex-wrap-nowrap {flex-wrap: nowrap;}
+%flex-wrap-wrap {flex-wrap: wrap;}
+%flex-wrap-wrap-reverse {flex-wrap: wrap-reverse;}
+%justify-content-flex-start {justify-content: flex-start;}
+%justify-content-flex-end {justify-content: flex-end;}
+%justify-content-center {justify-content: center;}
+%justify-content-space-between {justify-content: space-between;}
+%justify-content-space-around {justify-content: space-around;}
+%align-items-stretch {align-items: stretch;}
+%align-items-flex-start {align-items: flex-start;}
+%align-items-flex-end {align-items: flex-end;}
+%align-items-center {align-items: center;}
+%align-items-baseline {align-items: baseline;}
+%align-content-stretch {align-content: stretch;}
+%align-content-flex-start {align-content: flex-start;}
+%align-content-flex-end {align-content: flex-end;}
+%align-content-center {align-content: center;}
+%align-content-space-between {align-content: space-between;}
+%align-content-space-around {align-content: space-around;}
+
+// @include flex(null, null, space-around, null, null);
+@mixin flex($direct, $wrap, $justify, $align, $content){
+	@extend %flex; // main property, attach in all flex mixins
+	@if $direct != null {
+		@extend %flex-direction-#{$direct}; // row(default - null), row-reverse, column, column-reverse;
+	}
+	@if $wrap != null {
+		@extend %flex-wrap-#{$wrap}; // nowrap(default - null), wrap, wrap-reverse;
+	}
+	@if $justify != null {
+		@extend %justify-content-#{$justify}; // flex-start(default - null), flex-end, center, space-between, space-around;
+	}
+	@if $align != null {
+		@extend %align-items-#{$align}; // stretch(default - null), flex-start, flex-end, center, baseline;
+	}
+	@if $content != null {
+		@extend %align-content-#{$content}; // stretch(default - null), flex-start, flex-end, center, space-between, space-around;
+	}
+}
+// @include flex-child(1, 1, 0, 200px, center);
+// @include flex-child(5, null, null, null, flex-start);
+@mixin flex-child($order: 0, $grow: 0, $shrink: 1, $basis: auto, $self: auto){
+	order: $order; // default - 0, integer
+	flex: $grow $shrink $basis; // default - 0 1 auto; (integer, integer, px)
+	align-self: $self; //auto(default - null), flex-start, flex-end, center, baseline, stretch;
+}
+
+////// Border mixin
+// $place - all, top, left, bottom, right;
+// $width - integer in pixels;
+// $color - hex or rgba color;
+// $style - dotted, dashed, solid, double, groove, ridge, inset, outset;
+// Examples:
+// @include border(top, 1px, solid, $blackish); => border-top: 1px solid #000;
+// @include border(all, 1px, solid, $blackish); => border: 1px solid #000;
+@mixin border($place, $width, $style, $color) {
+	@if $place == 'all' {
+		border: $width $style $color;
+	} @else {
+		border-#{$place}: $width $style $color;
+	}
+}
+
+// Font-face mixin
+@mixin font-face($name, $file, $path, $weight: 400, $style: normal) {
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: url('#{$path+$file+$weight+$style}.woff2') format('woff2'),
+		url('#{$path+$file+$weight+$style}.woff') format('woff');
+	}
+}
+
+/* Help clases */
+@mixin help($prefix) {
+	.hide-#{$prefix} {display: none;}
+	.show-#{$prefix} {display: block;}
+	.show-f-#{$prefix} {display: flex;}
+	.show-i-#{$prefix} {display: inline;}
+	.show-ib-#{$prefix} {display: inline-block;}
+}
+
+// relation widths to prefixes
+$queries: (
+	"xs": "",
+	"sm": "medium",
+	"lg":"large",
+	"xlg":"xlarge"
+);
+
+// Generate responsive help classes
+// @each $prefix, $size in $queries {
+//	@if $size == "" {
+//		@include help($prefix);
+//	} @else {
+//		@include breakpoint($size){
+//			@include help($prefix);
+//		}
+//	}
+// }
+
+// CSS3 columns. Needed for css-only masonry layout
+// @include css3columns(1,0);
+// @include css3columns(2,10);
+@mixin css3columns($cols: 3, $total-gap: 10) {
+	-moz-column-count: $cols;
+	-webkit-column-count: $cols;
+	@if $cols > 1 {
+		-moz-column-gap: $total-gap + px;
+		-webkit-column-gap: $total-gap + px;
+	}
+}
+
+//
+/// Png sprite mixin
+//
+// @include sprite($s-cart-icon);
+@mixin sprite($sprite-arr) {
+	width: nth($sprite-arr, 5);
+	height: nth($sprite-arr, 6);
+	background-position: nth($sprite-arr, 3) nth($sprite-arr, 4);
+	background-image: url('../img/ui/#{nth($sprite-arr, 9)}');
+}
+
+/// Applies the micro clearfix hack popularized by Nicolas Gallagher. Include this mixin on a container if its children are all floated, to give the container a proper height.
+/// @link http://nicolasgallagher.com/micro-clearfix-hack/ Micro Clearfix Hack
+@mixin clearfix {
+	&::before,
+	&::after {
+		content: ' ';
+		display: table;
+	}
+	&::after {
+		clear: both;
+	}
+}
+
+/// Makes an element visually hidden, but still accessible to keyboards and assistive devices.
+/// @link http://snook.ca/archives/html_and_css/hiding-content-for-accessibility Hiding Content for Accessibility
+@mixin element-invisible {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+}
+
+/// Reverses the CSS output created by the `element-invisible()` mixin.
+@mixin element-invisible-off {
+	position: static !important;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	clip: auto;
+}
+
+/// Horizontally centers an element using `transform`.
+@mixin horizontal-center {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+/// Vertically and horizontally centers an element using `transform`.
+@mixin vertical-center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/// Vertically centers an element using `transform`.
+@mixin v-align-middle {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+// Fluid responsive grid for similar items (goods, events etc.)
+// IMPORTANT: Run mixin only in fixed mediaqueruies spaces (0-640, 640-1024 etc.),
+// nth-child poperty can inherited for other media sizes!
+@mixin cards-grid ($items-per-row, $margin-right) {
+	$paddings-in-row: $items-per-row - 1;
+	$total-paddings: $margin-right * $paddings-in-row;
+	margin-right: percentage($margin-right/100);
+	width: (100% - $total-paddings) / $items-per-row;
+	&:nth-child(#{$items-per-row}n) {
+		margin-right: 0; // Remove margin for every last item in row;
+	}
+}

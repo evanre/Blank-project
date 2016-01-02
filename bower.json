@@ -1,0 +1,20 @@
+{
+  "name": "TrueCourse",
+  "version": "1.0.0",
+  "authors": [
+    "Eugene Zhuchenko <jekachenko@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-css": "normalize.css#latest",
+    "svg4everybody": "latest",
+    "animate-sass": "0.6.2"
+  }
+}

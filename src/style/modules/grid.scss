@@ -1,0 +1,125 @@
+/***
+* Flex-box grid
+***/
+// Variables for computing
+$outer-margin: 20px;
+$gutter-width: 40px;
+$columns: 12;
+
+// Computed
+$gutter-splitted: $gutter-width / 2;
+$gutter-compensation: $gutter-splitted * -1;
+
+// Make grid. Main mixin
+@mixin grid($size, $width: 0) {
+	// base grid column extender
+	%column-#{$size}-base {
+		box-sizing: border-box;
+		flex: 0 0 auto;
+		padding-right: $gutter-splitted;
+		padding-left: $gutter-splitted;
+	}
+	// Columns pattern
+	.col-#{$size} {
+		@extend %column-#{$size}-base;
+		flex-grow: 1;
+		flex-basis: 0;
+		max-width: 100%;
+	}
+	// Set container width for viewports
+	@if $width != 0 {
+		.container {
+			width: #{$width + $gutter-width / ($gutter-width * 0 + 1)}em;
+		}
+	}
+	// Create columns
+	@for $i from 1 through $columns {
+		// create column classes
+		.col-#{$size}-#{$i} {
+			@extend %column-#{$size}-base;
+			flex-basis: percentage($i / $columns);
+			max-width: percentage($i / $columns);
+		}
+	}
+	// create offsets and insets
+	//@for $i from 1 to $columns {
+		//!optional
+		// .col-#{$size}-offset-#{$i},
+		// .col-#{$size}-inset-#{$i} {
+		//	@extend %column-#{$size}-base;
+		// }
+		// offet classes
+		//.col-#{$size}-offset-#{$i} {
+		//	margin-left: percentage($i / $columns);
+		//}
+		// inset classes
+		//.col-#{$size}-inset-#{$i} {
+		//	margin-right: percentage($i / $columns);
+		//}
+	//}
+	// Help classes for container
+	// .start-#{$size} {justify-content: flex-start;text-align: start;}
+	// .center-#{$size} {justify-content: center;text-align: center;}
+	// .end-#{$size} {justify-content: flex-end;text-align: end;}
+	// .top-#{$size} {align-items: flex-start;}
+	// .middle-#{$size} {align-items: center;}
+	// .bottom-#{$size} {align-items: flex-end;}
+	// .around-#{$size} {justify-content: space-around;}
+	// .between-#{$size} {justify-content: space-between;}
+
+	// Help classes for flex items
+	// .first-#{$size} {order: -1;}
+	// .last-#{$size} {order: 1;}
+	// // My custom helper classes for flex items
+	// .grow-#{$size} {flex: 1 1 auto;}
+	// .self-top-#{$size} {align-self: flex-start;}
+	// .self-center-#{$size} {align-self: center;}
+	// .self-bottom-#{$size} {align-self: flex-end;}
+	// .self-baseline-#{$size} {align-self: baseline;}
+}
+
+.container {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.container-fluid {
+	@extend .container;
+	padding-right: $outer-margin;
+	padding-left: $outer-margin;
+}
+
+%row {
+	box-sizing: border-box;
+	display: flex;
+	flex: 0 1 auto;
+	flex-wrap: wrap;
+	margin-right: $gutter-compensation;
+	margin-left: $gutter-compensation;
+}
+.row {
+	@extend %row;
+	flex-direction: row;
+}
+.col {
+	@extend %row;
+	flex-direction: column;
+}
+.row.reverse {flex-direction: row-reverse;}
+.col.reverse {flex-direction: column-reverse;}
+
+
+// Make responsive grid
+@include grid(xs);
+
+@include breakpoint(medium) {
+	@include grid(sm);
+}
+
+@include breakpoint(large) {
+	@include grid(md);
+}
+
+@include breakpoint(xlarge) {
+	@include grid(lg);
+}
