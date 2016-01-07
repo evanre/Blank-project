@@ -198,3 +198,12 @@ $queries: (
 		margin-right: 0; // Remove margin for every last item in row;
 	}
 }
+
+// Extends all action states :hover, :active, :focus.
+@mixin superhover {
+	&:hover,
+	&:active,
+	&:focus {
+		@content;
+	}
+}

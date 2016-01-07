@@ -63,7 +63,7 @@ var path = {
 		html: 'src/*.html', // Syntax src/*.html speaks Gulp that we want take all files with .html extension in root of the src folder;
 		php: 'src/php/**/*.php',
 		style: 'src/style/style.scss',// In styles folder we needed only Main file;
-		js: 'src/js/*.js',
+		js: ['src/js/*.js', 'src/js/vendor/*.js'],
 		font: {
 			fonts: ['src/fonts/**/*.*', '!src/fonts/icofont/**'], // Exception in the img folder: icofont;
 			icofont: {

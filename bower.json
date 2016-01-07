@@ -13,6 +13,7 @@
     "tests"
   ],
   "dependencies": {
+	"jquery": "latest",
     "normalize-css": "normalize.css#latest",
     "svg4everybody": "latest",
     "animate-sass": "0.6.2"
