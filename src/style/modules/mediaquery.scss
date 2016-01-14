@@ -70,6 +70,9 @@ $breakpoint-classes: (small medium large) !default;
 	//@if $bp-max {
 		//$bp-max: -zf-bp-to-em($bp-max) - (1/16);
 	//}
+	@if $bp-max {
+		$bp-max: $bp-max - 1;
+	}
 
 	// Skip media query creation if the input is "0 up" or "0 down"
 	@if $bp > 0 or $dir == 'only' {
@@ -103,7 +106,10 @@ $breakpoint-classes: (small medium large) !default;
 		}
 
 		// "Up" ranges use the format "(min-width: n)"
-		@else if strip-unit($bp) > 0 {
+		// @else if strip-unit($bp) > 0 {
+		// 	$str: $str + '(min-width: #{$bp})';
+		// }
+		@else if $bp > 0 {
 			$str: $str + '(min-width: #{$bp})';
 		}
 	}
