@@ -17,7 +17,7 @@ var
 	prefixer = require('gulp-autoprefixer'), // Adds browser-vendor prefixes for specific css properties;
 	sass = require('gulp-sass'), // Sass;
 	cssmin = require('gulp-minify-css'), // Minify CSS files;
-	cmq = require('gulp-combine-media-queries'), // Combine matching media queries into one media query definition;
+	cmq = require('gulp-group-css-media-queries'), // Combine matching media queries into one media query definition;
 
 	// js
 	uglify = require('gulp-uglify'), // Minify JS files;
@@ -98,7 +98,7 @@ var path = {
 		html: 'build/',
 		php: 'build/',
 		js: 'build/js',
-		css: 'build/css',
+		css: 'build/',
 		img: {
 			img: 'build/img',
 			sprite: 'build/img/ui', // Both sprite types - png and svg;
